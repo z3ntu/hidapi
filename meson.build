@@ -3,20 +3,29 @@ project('hidapi', 'c')
 inc = include_directories('hidapi')
 
 if host_machine.system() == 'linux'
-  dep = dependency('libudev')
-
-  src = 'linux/hid.c'
+  subdir('linux')
+  subdir('libusb')
 elif host_machine.system() == 'darwin'
-  dep = dependency('appleframeworks',
-                   modules : ['CoreFoundation', 'IOKit'])
-
-  src = 'mac/hid.c'
+  subdir('mac')
 elif host_machine.system() == 'windows'
-  cc = meson.get_compiler('c')
-  dep = cc.find_library('setupapi')
-
-  src = 'windows/hid.c'
+  subdir('windows')
 endif
 
-hidapi_lib = library('hidapi', src, include_directories : inc, dependencies : dep)
 hidapi = declare_dependency(include_directories: inc, link_with : hidapi_lib)
+
+# Stop execution here if we are in a subproject
+if meson.is_subproject()
+  subdir_done()
+endif
+
+subdir('hidtest')
+
+install_headers('')
+
+pkg = import('pkgconfig')
+if host_machine.system() == 'linux'
+
+pkg.generate(name : meson.project_name(),
+             description : 'C Library for USB/Bluetooth HID device access from Linux, macOS, FreeBSD and Windows.',
+             libraries : hidapi_lib,
+             version : meson.project_version())
