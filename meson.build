@@ -1,4 +1,5 @@
-project('hidapi', 'c')
+project('hidapi', 'c',
+        version : '0.9.0')
 
 inc = include_directories('hidapi')
 
