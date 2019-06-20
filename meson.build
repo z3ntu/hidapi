@@ -19,4 +19,4 @@ elif host_machine.system() == 'windows'
 endif
 
 hidapi_lib = library('hidapi', src, include_directories : inc, dependencies : dep)
-hidapi = declare_dependency(include_directories: inc, link_with : hidapi_lib)
+hidapi_dep = declare_dependency(include_directories: inc, link_with : hidapi_lib)
