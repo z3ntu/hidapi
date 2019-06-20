@@ -13,7 +13,7 @@ elif host_machine.system() == 'haiku'
   subdir('libusb')
 endif
 
-hidapi = declare_dependency(include_directories: inc, link_with : hidapi_lib)
+hidapi_dep = declare_dependency(include_directories: inc, link_with : hidapi_lib)
 
 # Stop execution here if we are in a subproject
 if meson.is_subproject()
