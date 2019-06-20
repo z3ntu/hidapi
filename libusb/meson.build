@@ -7,7 +7,7 @@ if host_machine.system() == 'linux'
 else
   libname = 'hidapi'
   cc = meson.get_compiler('c')
-  deps += cc.find_library('iconv')
+  deps += cc.find_library('iconv', dirs : ['/usr/lib', '/usr/local/lib'])
 endif
 
 hidapi_lib = library(libname,

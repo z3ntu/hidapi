@@ -12,6 +12,13 @@ elif host_machine.system() == 'windows'
   subdir('windows')
 elif host_machine.system() == 'haiku'
   subdir('libusb')
+elif host_machine.system() == 'openbsd'
+  # On OpenBSD libiconv is located at /usr/local but the compiler doesn't
+  # search that path, so include it explicitly.
+  add_project_arguments('-I/usr/local/include', language : 'c')
+  subdir('libusb')
+else
+  error('hidapi is not yet support for this platform')
 endif
 
 hidapi_dep = declare_dependency(include_directories: inc, link_with : hidapi_lib)
