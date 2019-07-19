@@ -17,6 +17,8 @@ elif host_machine.system() == 'openbsd'
   # search that path, so include it explicitly.
   add_project_arguments('-I/usr/local/include', language : 'c')
   subdir('libusb')
+elif host_machine.system() == 'netbsd'
+  subdir('libusb')
 else
   error('hidapi is not yet support for this platform')
 endif
